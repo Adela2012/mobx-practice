@@ -7,11 +7,15 @@ class TimerView extends Component {
     onAdd = () => {
         this.props.appStore.addTimer()
     }
+    onReset = () => {
+        this.props.appStore.resetTimer()
+    }
     render() { 
         return (
             <div>
                 {this.props.appStore.timer}
-                <button onClick={this.onAdd}>click</button>
+                <button onClick={this.onAdd}>onAdd</button>
+                <button onClick={this.onReset}>onReset</button>
             </div>
         );
     }

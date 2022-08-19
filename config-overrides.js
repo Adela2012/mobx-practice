@@ -5,6 +5,22 @@ const {
   addDecoratorsLegacy
 } = require("customize-cra");
 
+const path = require('path');
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
+const customize = () => (config, env) => {
+  config.resolve.alias['@'] = resolve('src');
+  if (env === 'production') {
+    config.externals = {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
+    }
+  }
+  return config
+};
+
 module.exports = override(
   fixBabelImports("import", {
     // antd按需加载
@@ -20,5 +36,6 @@ module.exports = override(
       "@link-color": "orange"
     }
   }),
-  addDecoratorsLegacy() //配置装饰器
+  addDecoratorsLegacy(), //配置装饰器
+  customize()
 );
