@@ -1,8 +1,7 @@
-
 import { observable, configure, action, computed, autorun } from "mobx";
 
+// 不允许在动作外部修改状态
 configure({ enforceActions: "observed" });
-
 
 class TodoStore {
     @observable todos = [
@@ -45,10 +44,4 @@ autorun(() => {
     console.log("剩余任务：" + todoStore.unfinishedCount + "个"); //sy-log
 });
 
-// setInterval(action(() => {
-//     console.log(todoStore.todos,1, todoStore.todos[0].finished);
-//     todoStore.todos[0].finished = !todoStore.todos[0].finished
-// }), 1000)
-
 export default todoStore;
-
