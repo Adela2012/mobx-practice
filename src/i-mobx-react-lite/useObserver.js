@@ -7,20 +7,27 @@ function observerComponentNameFor(baseComponentName) {
 }
 
 export function useObserver(fn, baseComponentName = "observed", options = {}) {
+    // const [, forceUpdate] = useReducer(x => x + 1, 0);
 
-    const forceUpdate = (options.useForceUpdate || useForceUpdate)()
-
-    const reactionTrackingRef = useRef(null)
+    const wantedForceUpdateHook = options.useForceUpdate || useForceUpdate;
+    const forceUpdate = wantedForceUpdateHook();
+    // 组件有初次渲染和更新，那这个时候reaction得做一个缓存，
+    const reactionTrackingRef = useRef(null);
 
     if (!reactionTrackingRef.current) {
         reactionTrackingRef.current = {
-            reaction: new Reaction(observerComponentNameFor(baseComponentName), () => {
-                forceUpdate()
-            })
-        }
+            reaction: new Reaction(
+                observerComponentNameFor(baseComponentName),
+                () => {
+                    // 响应函数使用forceUpdate
+                    forceUpdate();
+                }
+            )
+        };
     }
 
-    const { reaction } = reactionTrackingRef.current
+    const { reaction } = reactionTrackingRef.current;
+
     useEffect(() => {
         return () => {
             // 清理reaction
@@ -31,13 +38,9 @@ export function useObserver(fn, baseComponentName = "observed", options = {}) {
 
     let rendering;
 
-   
-
     reaction.track(() => {
         rendering = fn();
-
-    })
-
+    });
 
     return rendering;
 }

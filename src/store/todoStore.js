@@ -32,8 +32,8 @@ class TodoStore {
         return this.todos.filter(todo => !todo.finished).length;
     }
 
-    @action change(todo, todos) {
-        console.log("🚀 ~ file: todoStore.js ~ line 37 ~ TodoStore ~ @actionchange ~ todo", todo, todos)
+    @action change(todo) {
+        console.log("🚀 ~ file: todoStore.js ~ line 37 ~ TodoStore ~ @actionchange ~ todo", todo)
         todo.finished = !todo.finished;
     }
 }
