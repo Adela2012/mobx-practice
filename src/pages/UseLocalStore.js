@@ -1,17 +1,18 @@
 
 import React from "react";
 import {
-    useLocalStore,
+    // useLocalStore,
     useObserver,
     // useAsObservableSource
 } from "mobx-react";
-import { useAsObservableSource } from "../i-mobx-react-lite/";
+import { useAsObservableSource, useLocalStore, Observer } from "../i-mobx-react-lite/";
 
 function UseLocalStore(props) {
-    const newProps = useAsObservableSource(props);
-    console.log(newProps);
+    // const newProps = useAsObservableSource(props);
+    const newProps = { ...props };
+    console.log(88, newProps);
     const countStore = useLocalStore(
-        () => ({
+        (newProps) => ({
             count: props.init === undefined ? 0 : props.init,
             add() {
                 this.count = this.count + 1;
@@ -29,11 +30,11 @@ function UseLocalStore(props) {
                     : newProps.init;
             }
         }),
-        props
+        newProps
     );
     const { count } = countStore
     console.log(111);
-    return useObserver(() => (
+    return <Observer>{ () => (
         <div className="border">
             <h3>UseLocalStore{countStore.emoji}</h3>
             <p>{countStore.specialNum}</p>
@@ -41,6 +42,15 @@ function UseLocalStore(props) {
             <button onClick={countStore.toggle}>done: {countStore.done + ''}</button>
 
         </div>
-    ));
+    ) }</Observer>
+    // return useObserver(() => (
+    //     <div className="border">
+    //         <h3>UseLocalStore{countStore.emoji}</h3>
+    //         <p>{countStore.specialNum}</p>
+    //         <button onClick={countStore.add}>count: {countStore.count}, {count}</button>
+    //         <button onClick={countStore.toggle}>done: {countStore.done + ''}</button>
+
+    //     </div>
+    // ));
 }
 export default UseLocalStore;
