@@ -1,7 +1,8 @@
 import React, { Component, Children, useReducer, useState } from "react";
 // import {observer, Observer, useObserver} from "mobx-react";
 
-import { useObserver, observer, Observer } from "../i-mobx-react-lite/index";
+// import { useObserver, observer, Observer } from "../i-mobx-react-lite/index";
+import { observer } from "../i-mobx-react/index";
 
 // @observer
 class TodoList extends Component {
@@ -32,10 +33,28 @@ class TodoList extends Component {
 
 export default TodoList;
 
+
+// const Todo = observer(
+//     ({ todo, change }, ref) => {
+//         console.log("input value", ref, ref.current && ref.current.value); //sy-log
+//         return (
+//             <div>
+//                 <input
+//                     type="checkbox"
+//                     checked={todo.finished}
+//                     onChange={() => change(todo)}
+//                 />
+//                 {todo.title}
+//             </div>
+//         );
+//     },
+//     { forwardRef: true }
+// );
 // 如何给组件添加响应式
 // // 方法1： observer hoc（高阶组件：接收组件为参数并且返回一个新组件的函数）
 const Todo = observer(
-    ({ todo, change }, ref) => {
+    React.forwardRef((props, ref) => { 
+        const {todo, change} = props;
         console.log("input value", ref, ref.current && ref.current.value); //sy-log
         return (
             <div>
@@ -47,9 +66,9 @@ const Todo = observer(
                 {todo.title}
             </div>
         );
-    },
-    { forwardRef: true }
+    })
 );
+
 
 // 方法2： Observer component
 // const Todo = ({todo, change}) => {

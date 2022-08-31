@@ -13,8 +13,8 @@ function App() {
         add countInit{countInit}
       </button>
       {/* <TimerView appStore={appStore}/> */}
-      {/* <TodoList todoStore={todoStore} /> */}
-      <UseLocalStore init={countInit} />
+      <TodoList todoStore={todoStore} />
+      {/* <UseLocalStore init={countInit} /> */}
     </div>
   );
 }
